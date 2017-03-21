@@ -5,6 +5,8 @@ capabilities for any window-manager. It is ideal for mapping
 to particular key-strokes to resize / reposition windows
 on demand. 
 
+![Window-grid demo](/screenshot/window-grid.gif)
+
 This script positions any X11 window based on a grid. 
 The grid is subdivided, by default, into 8 segments in 
 each direction. (This can be overridden using the -d flag.)
