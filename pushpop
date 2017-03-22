@@ -18,6 +18,11 @@ while getopts c:i:s:w:h:x:y:d:? FLAG; do
     esac
 done    
 
+if [ ! -e $FILENAME ]; then 
+    touch $FILENAME
+fi
+
+
 if [ "${WINDOW}x" == "x" ]; then
     WINDOW=$(xdotool getactivewindow)
 fi
@@ -51,10 +56,6 @@ function get_window_position()
     NEW_Y=$(( $Y - $frame_height ))
     echo ${NEW_X},${NEW_Y},${WIDTH},${HEIGHT} $SCREEN
 }
-
-if [ ! -e $FILENAME ]; then 
-    touch $FILENAME
-fi
 
 if [ "$ACTION" == "push" ]; then
     WINDOWPOS=$(get_window_position $WINDOW)
