@@ -270,10 +270,10 @@ get_screen_dimensions
 
 ## if we were told which screen to use, use it.  Otherwise work
 ## on the one we are already on
-if [ "${SCREEN_DIMENSIONS[$SCREEN_TO_USE]}x" == "x" ]; then
-    get_screen_info $(which_screen $X $Y)
-else 
+if [ -n "$SCREEN_TO_USE" -a -n "${SCREEN_DIMENSIONS[$SCREEN_TO_USE]}" ]; then
     get_screen_info ${SCREEN_DIMENSIONS[$SCREEN_TO_USE]}
+else 
+    get_screen_info $(which_screen $X $Y)
 fi
 
 CURRENT_X=$(( $(get_closest $SEGMENT_WIDTH $X $OFFSET_X) / $SEGMENT_WIDTH ))
