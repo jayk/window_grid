@@ -12,7 +12,7 @@ The grid is subdivided, by default, into 8 segments in
 each direction. (This can be overridden using the -d flag.)
 
 This script requires the following tools to be installed:
-`xprop` `wmctrl` and `xdotool`.  
+`xprop` `wmctrl` `xdotool` and `xrandr`.  
 
 Examples:
 
@@ -32,6 +32,9 @@ Examples:
 
     # Expand active window's width by one grid-space
     window_grid -w +1
+
+    # Move window to second monitor at top-left
+    window_grid -s 1 -x 0 -y 0
 
     # snap active window fit into the closest grid
     # spaces based on its current size and position
@@ -55,16 +58,14 @@ Note that the actual pixel-size of a grid segment will depend on the
 your screen size.  For example, for a 1920x1080 display, the default
 size of a 1x1 grid segment is 240 x 135. 
 
-This script is screen-aware and divides each monitor according to 
-the resolution of that monitor. It can place windows on multiple 
-screens, and works in most 'normal' multi-monitor setups,
-but note that it currently does not create windows larger than the 
-screen the window starts on. Note also that when choosing sizes and 
-positions, the grid size used is based on the monitor the window 
-starts on. So in configurations where resolution is different, 
-the grid may not line up the way you want. Because of this, if 
-you wish to move windows between displays, it's best to use 
-your window manager (or another tool) to move them to the 
-display you want them on before invoking this script to do 
-grid-positioning. This functionality may be added in a future 
-version.
+## Multiple Monitors
+
+window_grid is multi-display aware and divides each monitor
+according to the resolution of that monitor. It can place windows
+on multiple screens, and works as you would expect in most 'normal' 
+multi-monitor setups.
+
+By default, all positions and sizes are considered relative to the 
+monitor the window is currently on. You can switch the 
+destination monitor by using the `-s` flag. Screens start at 0 
+and are enumerated in the order they are returned by xrandr.
