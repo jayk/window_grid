@@ -3,7 +3,7 @@
 ACTION=auto
 FILENAME=${HOME}/.pushpop
 
-while getopts c:i:s:w:h:x:y:d:? FLAG; do
+while getopts a:i:e:f: FLAG; do
     ARGS=1;
     case $FLAG in
         i)
@@ -15,6 +15,9 @@ while getopts c:i:s:w:h:x:y:d:? FLAG; do
         f)
             FILENAME=$OPTARG
             ;;
+        e)
+            EXPIRES=$OPTARG
+            ;;
     esac
 done    
 
@@ -22,6 +25,7 @@ if [ ! -e $FILENAME ]; then
     touch $FILENAME
 fi
 
+NOW=$(date +"%s")
 
 if [ "${WINDOW}x" == "x" ]; then
     WINDOW=$(xdotool getactivewindow)
@@ -62,7 +66,7 @@ if [ "$ACTION" == "push" ]; then
 
     SIZEDATA=$(get_position $FILENAME $WINDOW)
 
-    NEWSIZEDATA=$(echo $WINDOW $WINDOWPOS)
+    NEWSIZEDATA=$(echo $WINDOW $WINDOWPOS $NOW)
    
     if [ "${SIZEDATA}" != "${NEWSIZEDATA}" ]; then 
        echo $NEWSIZEDATA >> $FILENAME
@@ -72,7 +76,15 @@ fi
 if [ "$ACTION" == "pop" ]; then
     TMPFILE=$(mktemp)
     SIZEDATA=$(get_position $FILENAME $WINDOW)
-    echo $SIZEDATA 
+    if [ -n "$EXPIRES" ]; then
+        TIME=$(echo $SIZEDATA|awk '{print $4}')
+        AGE=$(expr $NOW - $TIME)
+        if [ "$AGE" -lt "$EXPIRES" ]; then 
+            echo $SIZEDATA 
+        fi
+    else 
+        echo $SIZEDATA 
+    fi
     grep -v "$SIZEDATA" $FILENAME > $TMPFILE
     if [ $? -le 1 ]; then 
         mv -f $TMPFILE $FILENAME;

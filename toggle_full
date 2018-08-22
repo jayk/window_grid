@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PUSHPOP=${DIR}/pushpop
 WINDOWGRID=${DIR}/window_grid
 
-RES=$($PUSHPOP)
+RES=$($PUSHPOP -e 43200 )
 
 if [ "${RES}x" == "x" ]; then
    $WINDOWGRID -d 16 -x 1 -y 1 -w 14 -h 14
