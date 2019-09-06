@@ -28,7 +28,9 @@ fi
 NOW=$(date +"%s")
 
 if [ "${WINDOW}x" == "x" ]; then
-    WINDOW=$(xdotool getactivewindow)
+    WINDOWID=$(xdotool getactivewindow)
+    WINDOWPID=$(xdotool getactivewindow getwindowpid)
+    WINDOW="${WINDOWID}-${WINDOWPID}"
 fi
 
 if [ "$ACTION" == "auto" ]; then 
