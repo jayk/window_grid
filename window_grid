@@ -131,7 +131,7 @@ declare -a SCREEN_DIMENSIONS
 function get_screen_dimensions() 
 {
     i=0
-    LINES=$(xrandr |grep ' connected' |cut -d\( -f 1 |awk '{print $NF}')
+    LINES=$(xrandr |grep ' connected' | grep '[0-9]x[0-9]' |cut -d\( -f 1 |awk '{print $NF}')
     while IFS= read -r line; do
         IFS=: read width height startx starty <<< "${line//[+x]/:}"
         endx=$(( $width + $startx ))
